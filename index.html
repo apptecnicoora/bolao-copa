@@ -26,7 +26,15 @@
         /* Área de Pênaltis e Classificado */
         .penaltis-container { display: none; margin-top: 15px; background-color: #1a1a1a; padding: 10px; border-radius: 5px; border: 1px solid #f5c518; }
         .penaltis-container label { cursor: pointer; margin: 0 10px; font-size: 16px; font-weight: bold; display: inline-block; padding: 5px;}
-        .classificado { display: none; margin-top: 10px; color: #28a745; font-weight: bold; font-size: 16px; }
+        
+        /* Classe do vencedor com animação de piscar (pulse) */
+        .classificado { display: none; margin-top: 10px; color: #28a745; font-weight: bold; font-size: 18px; animation: piscarVencedor 1.5s infinite; }
+        
+        @keyframes piscarVencedor {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
         
         .btn-submit { width: 100%; background-color: #28a745; color: white; padding: 15px; border: none; border-radius: 8px; font-size: 18px; cursor: pointer; margin-top: 10px; font-weight: bold; transition: 0.2s;}
         .btn-submit:hover { background-color: #218838; }
@@ -63,7 +71,7 @@
                     <label class="avatar-option"><input type="radio" name="avatar" value="🦄">🦄</label>
                     <label class="avatar-option"><input type="radio" name="avatar" value="🐉">🐉</label>
                     <label class="avatar-option"><input type="radio" name="avatar" value="🥷">🥷</label>
-                    <label class="avatar-option"><input type="radio" name="avatar" value="astronauta">👨‍🚀</label>
+                    <label class="avatar-option"><input type="radio" name="avatar" value="👨‍🚀">👨‍🚀</label>
                     <label class="avatar-option"><input type="radio" name="avatar" value="🧙‍♂️">🧙‍♂️</label>
                     <label class="avatar-option"><input type="radio" name="avatar" value="🧛‍♂️">🧛‍♂️</label>
                     <label class="avatar-option"><input type="radio" name="avatar" value="🤖">🤖</label>
@@ -103,7 +111,6 @@
     </div>
 
     <script>
-        // Lista completa de jogos com bandeiras e identificadores
         const jogos = [
             { id: 1, f1: "🇿🇦", t1: "África do Sul", f2: "🇨🇦", t2: "Canadá", data: "28/06 - 16h" },
             { id: 2, f1: "🇧🇷", t1: "Brasil", f2: "🇯🇵", t2: "Japão", data: "29/06 - 14h" },
@@ -123,13 +130,12 @@
             { id: 16, f1: "🇨🇴", t1: "Colômbia", f2: "🇬🇭", t2: "Gana", data: "03/07 - 22h30" }
         ];
 
-        // Inicializa a árvore de jogos no HTML
         const container = document.getElementById('jogos-container');
         jogos.forEach(j => {
             container.innerHTML += `
                 <div class="jogo-card">
                     ${j.f1} <b>${j.t1}</b> x <b>${j.t2}</b> ${j.f2}<br>
-                    <div style="font-size: 12px; color: #aaaaaa; margin-top: 5px;">${j.data}</div>
+                    <div style="font-size: 12px; color: #aaaaaa; margin-top: 5px;">{{ j.data }}</div>
                     
                     <div class="placar-inputs">
                         <input type="number" id="j${j.id}_t1" min="0" required oninput="calcularVencedor(${j.id})"> X 
@@ -169,11 +175,11 @@
             if (p1 > p2) {
                 divPenaltis.style.display = "none";
                 divClassificado.style.display = "block";
-                divClassificado.innerHTML = `✅ Avança: ${jogo.f1} ${jogo.t1}`;
+                divClassificado.innerHTML = `⭐ Avança: ${jogo.f1} ${jogo.t1} ⭐`;
             } else if (p2 > p1) {
                 divPenaltis.style.display = "none";
                 divClassificado.style.display = "block";
-                divClassificado.innerHTML = `✅ Avança: ${jogo.f2} ${jogo.t2}`;
+                divClassificado.innerHTML = `⭐ Avança: ${jogo.f2} ${jogo.t2} ⭐`;
             } else {
                 divPenaltis.style.display = "block";
                 divClassificado.style.display = "none";
@@ -183,7 +189,7 @@
                 if (checked) {
                     const flagVencedor = checked.value === jogo.t1 ? jogo.f1 : jogo.f2;
                     divClassificado.style.display = "block";
-                    divClassificado.innerHTML = `✅ Avança nos Pênaltis: ${flagVencedor} ${checked.value}`;
+                    divClassificado.innerHTML = `⭐ Avança nos Pênaltis: ${flagVencedor} ${checked.value} ⭐`;
                 }
             }
         }
@@ -194,7 +200,7 @@
             const selecionado = document.querySelector(`input[name="penalti_${id}"]:checked`).value;
             const flagVencedor = selecionado === jogo.t1 ? jogo.f1 : jogo.f2;
             divClassificado.style.display = "block";
-            divClassificado.innerHTML = `✅ Avança nos Pênaltis: ${flagVencedor} ${selecionado}`;
+            divClassificado.innerHTML = `⭐ Avança nos Pênaltis: ${flagVencedor} ${selecionado} ⭐`;
         }
 
         function gerarResultado(event) {
@@ -235,7 +241,7 @@
             navigator.clipboard.writeText(areaDeTexto.value).then(() => {
                 alert("✅ Palpites copiados com sucesso!\nAgora é só colar no grupo do WhatsApp.");
             }).catch(() => {
-                alert("Erro ao copiar automaticamente. Selecione e copie o texto manualmente.");
+                alert("Erro ao copiar. Selecione manualmente.");
             });
         }
     </script>
