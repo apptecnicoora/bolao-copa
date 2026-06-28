@@ -8,23 +8,32 @@
         body { font-family: Arial, sans-serif; background-color: #1a1a1a; color: #ffffff; margin: 0; padding: 20px; }
         .container { max-width: 600px; margin: 0 auto; }
         h2 { text-align: center; color: #f5c518; }
+        
         .form-group { margin-bottom: 20px; background: #2b2b2b; padding: 15px; border-radius: 8px; }
         .form-group input[type="text"] { width: 100%; padding: 12px; border-radius: 5px; border: none; box-sizing: border-box; font-size: 16px; margin-top: 10px; }
         
         /* Estilos do Avatar */
-        .avatar-container { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 10px; justify-content: center; }
-        .avatar-option { cursor: pointer; text-align: center; font-size: 30px; background: #1a1a1a; padding: 10px; border-radius: 50%; border: 2px solid transparent; transition: 0.3s; }
+        .avatar-container { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; justify-content: center; }
+        .avatar-option { cursor: pointer; text-align: center; font-size: 28px; background: #1a1a1a; padding: 8px; border-radius: 50%; border: 2px solid transparent; transition: 0.3s; }
         .avatar-option input { display: none; }
-        .avatar-option:has(input:checked) { border-color: #f5c518; background: #3d3d3d; }
+        .avatar-option:has(input:checked) { border-color: #f5c518; background: #3d3d3d; transform: scale(1.1); }
         
+        /* Estilos dos Jogos */
         .jogo-card { background-color: #2b2b2b; padding: 15px; margin-bottom: 15px; border-radius: 8px; text-align: center; font-size: 18px;}
         .placar-inputs { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 10px; }
         input[type="number"] { width: 55px; height: 45px; text-align: center; font-size: 20px; border-radius: 5px; border: none; font-weight: bold;}
-        .btn-submit { width: 100%; background-color: #28a745; color: white; padding: 15px; border: none; border-radius: 8px; font-size: 18px; cursor: pointer; margin-top: 10px; font-weight: bold; }
+        
+        /* Área de Pênaltis e Classificado */
+        .penaltis-container { display: none; margin-top: 15px; background-color: #1a1a1a; padding: 10px; border-radius: 5px; border: 1px solid #f5c518; }
+        .penaltis-container label { cursor: pointer; margin: 0 10px; font-size: 16px; font-weight: bold; }
+        .classificado { display: none; margin-top: 10px; color: #28a745; font-weight: bold; font-size: 16px; }
+        
+        .btn-submit { width: 100%; background-color: #28a745; color: white; padding: 15px; border: none; border-radius: 8px; font-size: 18px; cursor: pointer; margin-top: 10px; font-weight: bold; transition: 0.2s;}
+        .btn-submit:hover { background-color: #218838; }
         
         /* Área do Resultado Copiável */
         #resultado-container { display: none; margin-top: 20px; background: #333; padding: 15px; border-radius: 8px; }
-        textarea { width: 100%; height: 250px; background: #1a1a1a; color: white; border: 1px solid #555; padding: 10px; border-radius: 5px; font-family: monospace; font-size: 14px; box-sizing: border-box; }
+        textarea { width: 100%; height: 350px; background: #1a1a1a; color: white; border: 1px solid #555; padding: 10px; border-radius: 5px; font-family: monospace; font-size: 14px; box-sizing: border-box; resize: none;}
         .btn-copy { width: 100%; background-color: #f5c518; color: #1a1a1a; padding: 15px; border: none; border-radius: 8px; font-size: 18px; cursor: pointer; margin-top: 10px; font-weight: bold; }
     </style>
 </head>
@@ -42,6 +51,18 @@
                     <label class="avatar-option"><input type="radio" name="avatar" value="🧙‍♂️">🧙‍♂️</label>
                     <label class="avatar-option"><input type="radio" name="avatar" value="🤖">🤖</label>
                     <label class="avatar-option"><input type="radio" name="avatar" value="👻">👻</label>
+                    <label class="avatar-option"><input type="radio" name="avatar" value="🐶">🐶</label>
+                    <label class="avatar-option"><input type="radio" name="avatar" value="🦊">🦊</label>
+                    <label class="avatar-option"><input type="radio" name="avatar" value="🐻">🐻</label>
+                    <label class="avatar-option"><input type="radio" name="avatar" value="🐼">🐼</label>
+                    <label class="avatar-option"><input type="radio" name="avatar" value="🐯">🐯</label>
+                    <label class="avatar-option"><input type="radio" name="avatar" value="🐸">🐸</label>
+                    <label class="avatar-option"><input type="radio" name="avatar" value="🐵">🐵</label>
+                    <label class="avatar-option"><input type="radio" name="avatar" value="🦄">🦄</label>
+                    <label class="avatar-option"><input type="radio" name="avatar" value="🐉">🐉</label>
+                    <label class="avatar-option"><input type="radio" name="avatar" value="🦅">🦅</label>
+                    <label class="avatar-option"><input type="radio" name="avatar" value="🦈">🦈</label>
+                    <label class="avatar-option"><input type="radio" name="avatar" value="⚽">⚽</label>
                 </div>
             </div>
 
@@ -64,7 +85,7 @@
     </div>
 
     <script>
-        // Lista completa com as bandeiras de cada país
+        // Lista de jogos com bandeiras
         const jogos = [
             { id: 1, f1: "🇿🇦", t1: "África do Sul", f2: "🇨🇦", t2: "Canadá", data: "28/06 - 16h" },
             { id: 2, f1: "🇧🇷", t1: "Brasil", f2: "🇯🇵", t2: "Japão", data: "29/06 - 14h" },
@@ -84,22 +105,84 @@
             { id: 16, f1: "🇨🇴", t1: "Colômbia", f2: "🇬🇭", t2: "Gana", data: "03/07 - 22h30" }
         ];
 
-        // Monta os jogos na tela
+        // Monta a interface dos jogos dinamicamente
         const container = document.getElementById('jogos-container');
         jogos.forEach(j => {
             container.innerHTML += `
                 <div class="jogo-card">
                     ${j.f1} <b>${j.t1}</b> x <b>${j.t2}</b> ${j.f2}<br>
                     <div style="font-size: 12px; color: #aaaaaa; margin-top: 5px;">${j.data}</div>
+                    
                     <div class="placar-inputs">
-                        <input type="number" id="j${j.id}_t1" min="0" required> X 
-                        <input type="number" id="j${j.id}_t2" min="0" required>
+                        <input type="number" id="j${j.id}_t1" min="0" required oninput="calcularVencedor(${j.id})"> X 
+                        <input type="number" id="j${j.id}_t2" min="0" required oninput="calcularVencedor(${j.id})">
                     </div>
+
+                    <div id="penaltis_${j.id}" class="penaltis-container">
+                        <div style="color:#f5c518; font-size: 14px; margin-bottom: 5px;">Empate! Quem avança nos pênaltis?</div>
+                        <label><input type="radio" name="penalti_${j.id}" value="${j.t1}" onclick="marcarPenalti(${j.id})"> ${j.f1} ${j.t1}</label>
+                        <label><input type="radio" name="penalti_${j.id}" value="${j.t2}" onclick="marcarPenalti(${j.id})"> ${j.t2} ${j.f2}</label>
+                    </div>
+
+                    <div id="classificado_${j.id}" class="classificado"></div>
                 </div>
             `;
         });
 
-        // Função que gera o texto formatado no textarea
+        // Lógica para detectar vencedor ou empate
+        function calcularVencedor(id) {
+            const val1 = document.getElementById(`j${id}_t1`).value;
+            const val2 = document.getElementById(`j${id}_t2`).value;
+            const divPenaltis = document.getElementById(`penaltis_${id}`);
+            const divClassificado = document.getElementById(`classificado_${id}`);
+            const jogo = jogos.find(j => j.id === id);
+            const radiosPenalti = document.getElementsByName(`penalti_${id}`);
+
+            // Remove a obrigatoriedade dos pênaltis temporariamente
+            radiosPenalti.forEach(r => r.required = false);
+
+            if (val1 === "" || val2 === "") {
+                divPenaltis.style.display = "none";
+                divClassificado.style.display = "none";
+                return;
+            }
+
+            const p1 = parseInt(val1);
+            const p2 = parseInt(val2);
+
+            if (p1 > p2) {
+                divPenaltis.style.display = "none";
+                divClassificado.style.display = "block";
+                divClassificado.innerHTML = `✅ Avança: ${jogo.t1}`;
+            } else if (p2 > p1) {
+                divPenaltis.style.display = "none";
+                divClassificado.style.display = "block";
+                divClassificado.innerHTML = `✅ Avança: ${jogo.t2}`;
+            } else {
+                // Empate - Mostrar opções de pênalti
+                divPenaltis.style.display = "block";
+                divClassificado.style.display = "none";
+                // Torna a escolha dos pênaltis obrigatória para enviar o formulário
+                radiosPenalti.forEach(r => r.required = true);
+                
+                // Se já tinha alguém marcado antes de mudar o placar, atualiza
+                const checked = document.querySelector(`input[name="penalti_${id}"]:checked`);
+                if (checked) {
+                    divClassificado.style.display = "block";
+                    divClassificado.innerHTML = `✅ Avança nos Pênaltis: ${checked.value}`;
+                }
+            }
+        }
+
+        // Função ao clicar na opção de pênalti
+        function marcarPenalti(id) {
+            const divClassificado = document.getElementById(`classificado_${id}`);
+            const selecionado = document.querySelector(`input[name="penalti_${id}"]:checked`).value;
+            divClassificado.style.display = "block";
+            divClassificado.innerHTML = `✅ Avança nos Pênaltis: ${selecionado}`;
+        }
+
+        // Geração do Texto Final
         function gerarResultado(event) {
             event.preventDefault();
             
@@ -109,25 +192,33 @@
             let texto = `🏆 *BOLÃO DA COPA* 🏆\n👤 *${nome}* ${avatar}\n\n`;
             
             jogos.forEach(j => {
-                const placar1 = document.getElementById(`j${j.id}_t1`).value;
-                const placar2 = document.getElementById(`j${j.id}_t2`).value;
-                texto += `${j.f1} ${j.t1} *${placar1} x ${placar2}* ${j.t2} ${j.f2}\n`;
+                const p1 = document.getElementById(`j${j.id}_t1`).value;
+                const p2 = document.getElementById(`j${j.id}_t2`).value;
+                let infoExtra = "";
+
+                if (p1 === p2) {
+                    const penaltiVencedor = document.querySelector(`input[name="penalti_${j.id}"]:checked`).value;
+                    infoExtra = `\n↳ ✅ ${penaltiVencedor} avança (Pênaltis)`;
+                } else {
+                    const vencedor = parseInt(p1) > parseInt(p2) ? j.t1 : j.t2;
+                    infoExtra = `\n↳ ✅ ${vencedor} avança`;
+                }
+
+                texto += `${j.f1} ${j.t1} *${p1} x ${p2}* ${j.t2} ${j.f2}${infoExtra}\n\n`;
             });
 
-            document.getElementById('texto-gerado').value = texto;
+            document.getElementById('texto-gerado').value = texto.trim();
             document.getElementById('resultado-container').style.display = 'block';
             
-            // Rola a página para baixo para a pessoa ver o resultado
             document.getElementById('resultado-container').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Função do botão de copiar
         function copiarTexto() {
             const areaDeTexto = document.getElementById('texto-gerado');
             areaDeTexto.select();
-            areaDeTexto.setSelectionRange(0, 99999); // Para dispositivos móveis
+            areaDeTexto.setSelectionRange(0, 99999);
             navigator.clipboard.writeText(areaDeTexto.value).then(() => {
-                alert("✅ Palpites copiados com sucesso!\nAgora é só colar no grupo do WhatsApp.");
+                alert("✅ Palpites copiados com sucesso!\nAgora é só colar no grupo.");
             }).catch(() => {
                 alert("Erro ao copiar. Tente selecionar o texto manualmente.");
             });
@@ -135,4 +226,3 @@
     </script>
 </body>
 </html>
-
